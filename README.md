@@ -387,3 +387,35 @@ This project is created for educational purposes.
 ## Contact
 
 For questions or issues, please open an issue in the repository.
+
+flowchart TD
+
+    A[Frontend / Web / Mobile Client]
+
+    A --> B[API Gateway<br/>Port 8080]
+
+    B --> C[User Service<br/>Port 8081<br/>JWT Authentication]
+    B --> D[Patient Service<br/>Port 8082]
+    B --> E[Doctor Service<br/>Port 8083]
+    B --> F[Appointment Service<br/>Port 8084]
+
+    C --> DB1[(user_db)]
+    D --> DB2[(patient_db)]
+    E --> DB3[(doctor_db)]
+    F --> DB4[(appointment_db)]
+
+    C -.registers.-> G[Discovery Service<br/>Eureka : 8761]
+    D -.registers.-> G
+    E -.registers.-> G
+    F -.registers.-> G
+    B -.discovers services.-> G
+
+    F --> H[Kafka Event Bus]
+
+    H --> I[Appointment Created Event]
+    H --> J[Appointment Cancelled Event]
+    H --> K[Appointment Completed Event]
+
+    F -.Feign Call.-> D
+    F -.Feign Call.-> E
+
