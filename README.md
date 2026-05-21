@@ -388,6 +388,9 @@ This project is created for educational purposes.
 
 For questions or issues, please open an issue in the repository.
 
+## System Architecture
+
+```mermaid
 flowchart TD
 
     A[Frontend / Web / Mobile Client]
@@ -418,4 +421,4 @@ flowchart TD
 
     F -.Feign Call.-> D
     F -.Feign Call.-> E
-
+```
