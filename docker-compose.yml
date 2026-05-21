@@ -1,0 +1,183 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: hospital-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-me}
+      MYSQL_DATABASE: hospital_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - hospital-network
+
+  # Zookeeper for Kafka
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: hospital-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - hospital-network
+
+  # Kafka
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: hospital-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - hospital-network
+
+  # Discovery Service (Eureka)
+  discovery-service:
+    build:
+      context: ./discovery-service
+      dockerfile: Dockerfile
+    container_name: hospital-discovery
+    ports:
+      - "8761:8761"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/user_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-me}
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka
+    networks:
+      - hospital-network
+
+  # API Gateway
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: hospital-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - discovery-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/user_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-me}
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_ID: user-service
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_URI: lb://user-service
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES[0]: Path=/api/v1/users/**
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES[1]: Path=/api/v1/auth/**
+      SPRING_CLOUD_GATEWAY_ROUTES[1]_ID: patient-service
+      SPRING_CLOUD_GATEWAY_ROUTES[1]_URI: lb://patient-service
+      SPRING_CLOUD_GATEWAY_ROUTES[1]_PREDICATES[0]: Path=/api/v1/patients/**
+      SPRING_CLOUD_GATEWAY_ROUTES[2]_ID: doctor-service
+      SPRING_CLOUD_GATEWAY_ROUTES[2]_URI: lb://doctor-service
+      SPRING_CLOUD_GATEWAY_ROUTES[2]_PREDICATES[0]: Path=/api/v1/doctors/**
+      SPRING_CLOUD_GATEWAY_ROUTES[3]_ID: appointment-service
+      SPRING_CLOUD_GATEWAY_ROUTES[3]_URI: lb://appointment-service
+      SPRING_CLOUD_GATEWAY_ROUTES[3]_PREDICATES[0]: Path=/api/v1/appointments/**
+    networks:
+      - hospital-network
+
+  # User Service
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: hospital-user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - discovery-service
+      - mysql
+      - kafka
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/user_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-me}
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - hospital-network
+
+  # Patient Service
+  patient-service:
+    build:
+      context: ./patient-service
+      dockerfile: Dockerfile
+    container_name: hospital-patient-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - discovery-service
+      - mysql
+      - kafka
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/patient_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-me}
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - hospital-network
+
+  # Doctor Service
+  doctor-service:
+    build:
+      context: ./doctor-service
+      dockerfile: Dockerfile
+    container_name: hospital-doctor-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - discovery-service
+      - mysql
+      - kafka
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/doctor_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-me}
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - hospital-network
+
+  # Appointment Service
+  appointment-service:
+    build:
+      context: ./appointment-service
+      dockerfile: Dockerfile
+    container_name: hospital-appointment-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - discovery-service
+      - mysql
+      - kafka
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/appointment_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-me}
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-service:8761/eureka
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - hospital-network
+
+volumes:
+  mysql_data:
+
+networks:
+  hospital-network:
+    driver: bridge

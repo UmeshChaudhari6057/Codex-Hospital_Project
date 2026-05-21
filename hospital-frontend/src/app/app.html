@@ -1,0 +1,211 @@
+<main class="app-shell">
+  <aside class="sidebar" aria-label="Primary navigation">
+    <div class="brand">
+      <span class="brand-mark">+</span>
+      <div>
+        <strong>Hospital HMS</strong>
+        <span>Care operations</span>
+      </div>
+    </div>
+
+    <nav>
+      @for (section of sections; track section.id) {
+        <button type="button" [class.active]="activeSection() === section.id" (click)="selectSection(section.id)">
+          {{ section.label }}
+        </button>
+      }
+    </nav>
+  </aside>
+
+  <section class="workspace">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Hospital Management System</p>
+        <h1>Full-stack control room</h1>
+      </div>
+      <div class="status" [class.loading]="busy()">
+        <span></span>
+        {{ message() }}
+      </div>
+    </header>
+
+    @if (activeSection() === 'overview') {
+      <section class="overview-grid">
+        @for (stat of stats; track stat.label) {
+          <article class="metric-card">
+            <span>{{ stat.label }}</span>
+            <strong>{{ stat.value }}</strong>
+            <p>{{ stat.detail }}</p>
+          </article>
+        }
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <h2>Register user</h2>
+          <span>POST /api/v1/auth/register</span>
+        </div>
+        <form class="form-grid" (ngSubmit)="registerUser()">
+          <label>
+            Username
+            <input name="username" [(ngModel)]="registerForm.username" required />
+          </label>
+          <label>
+            Email
+            <input name="email" type="email" [(ngModel)]="registerForm.email" required />
+          </label>
+          <label>
+            Password
+            <input name="password" type="password" [(ngModel)]="registerForm.password" required />
+          </label>
+          <label>
+            Role
+            <select name="role" [(ngModel)]="registerForm.role">
+              @for (role of roles; track role) {
+                <option [value]="role">{{ role }}</option>
+              }
+            </select>
+          </label>
+          <button type="submit">Register</button>
+        </form>
+      </section>
+    }
+
+    @if (activeSection() === 'patients') {
+      <section class="panel">
+        <div class="panel-heading">
+          <h2>Create patient</h2>
+          <span>POST /api/v1/patients</span>
+        </div>
+        <form class="form-grid" (ngSubmit)="createPatient()">
+          <label>
+            Name
+            <input name="patientName" [(ngModel)]="patientForm.name" required />
+          </label>
+          <label>
+            Birth date
+            <input name="birthDate" type="date" [(ngModel)]="patientForm.birthDate" required />
+          </label>
+          <label>
+            Email
+            <input name="patientEmail" type="email" [(ngModel)]="patientForm.email" required />
+          </label>
+          <label>
+            User ID
+            <input name="patientUserId" type="number" [(ngModel)]="patientForm.userId" required />
+          </label>
+          <label>
+            Gender
+            <select name="gender" [(ngModel)]="patientForm.gender">
+              @for (gender of genders; track gender) {
+                <option [value]="gender">{{ gender }}</option>
+              }
+            </select>
+          </label>
+          <label>
+            Blood group
+            <select name="bloodGroup" [(ngModel)]="patientForm.bloodGroup">
+              @for (bloodGroup of bloodGroups; track bloodGroup) {
+                <option [value]="bloodGroup">{{ bloodGroup }}</option>
+              }
+            </select>
+          </label>
+          <button type="submit">Create Patient</button>
+        </form>
+      </section>
+
+      <section class="panel compact-panel">
+        <div class="panel-heading">
+          <h2>Find patient</h2>
+          <span>GET /api/v1/patients/:id</span>
+        </div>
+        <form class="inline-form" (ngSubmit)="findPatient()">
+          <input name="lookupPatientId" type="number" [(ngModel)]="lookup.patientId" />
+          <button type="submit">Find</button>
+        </form>
+      </section>
+    }
+
+    @if (activeSection() === 'doctors') {
+      <section class="panel">
+        <div class="panel-heading">
+          <h2>Create doctor</h2>
+          <span>POST /api/v1/doctors</span>
+        </div>
+        <form class="form-grid" (ngSubmit)="createDoctor()">
+          <label>
+            Name
+            <input name="doctorName" [(ngModel)]="doctorForm.name" required />
+          </label>
+          <label>
+            Specialization
+            <input name="specialization" [(ngModel)]="doctorForm.specialization" required />
+          </label>
+          <label>
+            Email
+            <input name="doctorEmail" type="email" [(ngModel)]="doctorForm.email" required />
+          </label>
+          <label>
+            User ID
+            <input name="doctorUserId" type="number" [(ngModel)]="doctorForm.userId" required />
+          </label>
+          <label class="wide">
+            Departments
+            <input name="departments" [(ngModel)]="doctorForm.departments" required />
+          </label>
+          <button type="submit">Create Doctor</button>
+          <button type="button" class="secondary" (click)="listDoctors()">Load Doctors</button>
+        </form>
+      </section>
+    }
+
+    @if (activeSection() === 'appointments') {
+      <section class="panel">
+        <div class="panel-heading">
+          <h2>Book appointment</h2>
+          <span>POST /api/v1/appointments</span>
+        </div>
+        <form class="form-grid" (ngSubmit)="createAppointment()">
+          <label>
+            Appointment time
+            <input name="appointmentTime" [(ngModel)]="appointmentForm.appointmentTime" required />
+          </label>
+          <label>
+            Patient ID
+            <input name="appointmentPatientId" type="number" [(ngModel)]="appointmentForm.patientId" required />
+          </label>
+          <label>
+            Doctor ID
+            <input name="appointmentDoctorId" type="number" [(ngModel)]="appointmentForm.doctorId" required />
+          </label>
+          <label class="wide">
+            Reason
+            <input name="reason" [(ngModel)]="appointmentForm.reason" required />
+          </label>
+          <button type="submit">Book Appointment</button>
+        </form>
+      </section>
+
+      <section class="panel compact-panel">
+        <div class="panel-heading">
+          <h2>Manage appointment</h2>
+          <span>GET / PUT /api/v1/appointments/:id</span>
+        </div>
+        <form class="inline-form" (ngSubmit)="findAppointment()">
+          <input name="lookupAppointmentId" type="number" [(ngModel)]="lookup.appointmentId" />
+          <button type="submit">Find</button>
+          <button type="button" class="secondary" (click)="cancelAppointment()">Cancel</button>
+          <button type="button" class="secondary" (click)="completeAppointment()">Complete</button>
+        </form>
+      </section>
+    }
+
+    <section class="response-panel">
+      <div class="panel-heading">
+        <h2>Latest response</h2>
+        <span>Gateway result</span>
+      </div>
+      <pre>{{ lastResponse() | json }}</pre>
+    </section>
+  </section>
+</main>
