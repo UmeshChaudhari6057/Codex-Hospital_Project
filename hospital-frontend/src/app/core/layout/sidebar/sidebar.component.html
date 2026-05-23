@@ -1,0 +1,19 @@
+<aside class="sidebar" aria-label="Primary navigation">
+  <div class="brand">
+    <span class="brand-mark">+</span>
+    <div>
+      <strong>Hospital HMS</strong>
+      <span>Care operations</span>
+    </div>
+  </div>
+
+  <nav>
+    @for (section of sections; track section.id) {
+      <button type="button"
+      [class.active]="activeSection === section.id"
+      (click)="select(section.id)">
+      {{ section.label }}
+      </button>
+    }
+  </nav>
+</aside>
