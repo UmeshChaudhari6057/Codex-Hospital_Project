@@ -1,0 +1,6 @@
+.sidebar { background:#0f2a33; color:#f7fbfc; padding:24px; }
+.brand { display:flex; gap:12px; margin-bottom:36px; }
+.brand-mark { display:grid; place-items:center; width:42px; height:42px; border-radius:8px; background:#28b39a; color:#062027; font-size:30px; font-weight:800; }
+nav { display:grid; gap:8px; }
+nav button { width:100%; padding:12px 14px; border:0; border-radius:8px; text-align:left; background:transparent; color:#d9e6e9; }
+nav button.active { background:#183943; color:#fff; }
