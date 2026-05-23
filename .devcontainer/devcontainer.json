@@ -1,0 +1,23 @@
+{
+  "name": "Hospital Management Development",
+  "image": "mcr.microsoft.com/devcontainers/java:1-21-bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vmware.vscode-spring-boot",
+        "vscjava.vscode-maven",
+        "ms-azuretools.vscode-docker",
+        "angular.ng-template"
+      ]
+    }
+  },
+  "forwardPorts": [4200, 8080, 8081, 8082, 8083, 8084, 8761, 3306, 9092],
+  "postCreateCommand": "java -version && mvn -version && node -v && npm -v"
+}
