@@ -38,7 +38,7 @@ export interface AppointmentRequest {
 
 @Injectable({ providedIn: 'root' })
 export class HospitalApi {
-  private readonly baseUrl = 'http://localhost:8080/api/v1';
+  private readonly baseUrl = `${this.resolveGatewayUrl()}/api/v1`;
 
   constructor(private readonly http: HttpClient) {}
 
@@ -76,5 +76,15 @@ export class HospitalApi {
 
   completeAppointment(id: number) {
     return this.http.put(`${this.baseUrl}/appointments/${id}/complete`, {});
+  }
+
+  private resolveGatewayUrl() {
+    const { protocol, hostname } = window.location;
+
+    if (hostname.includes('.app.github.dev')) {
+      return `${protocol}//${hostname.replace('-4200.', '-8080.')}`;
+    }
+
+    return 'http://localhost:8080';
   }
 }
