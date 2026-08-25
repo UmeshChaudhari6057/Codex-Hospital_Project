@@ -1,0 +1,3444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management Microservices - Complete Technical Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background: #0d1117;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #161b22;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            overflow: hidden;
+            border: 1px solid #30363d;
+        }
+        .header {
+            background: linear-gradient(135deg, #1f6feb 0%, #8957e5 100%);
+            color: white;
+            padding: 50px;
+            text-align: center;
+            border-bottom: 1px solid #30363d;
+        }
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+        .content {
+            padding: 50px;
+        }
+        .section {
+            margin-bottom: 60px;
+            padding: 30px;
+            background: #21262d;
+            border-radius: 10px;
+            border-left: 5px solid #1f6feb;
+            border: 1px solid #30363d;
+        }
+        .section h2 {
+            color: #58a6ff;
+            border-bottom: 3px solid #1f6feb;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+        .section h3 {
+            color: #8957e5;
+            margin: 25px 0 15px 0;
+            font-size: 1.6em;
+        }
+        .section h4 {
+            color: #c9d1d9;
+            margin: 20px 0 10px 0;
+            font-size: 1.3em;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+        .card {
+            background: #21262d;
+            border-left: 4px solid #1f6feb;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #30363d;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            border-color: #1f6feb;
+        }
+        .card h4 {
+            color: #58a6ff;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .card p {
+            color: #c9d1d9;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+        }
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: #21262d;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #30363d;
+        }
+        .tech-table th {
+            background: linear-gradient(135deg, #1f6feb 0%, #8957e5 100%);
+            color: white;
+            padding: 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        .tech-table td {
+            padding: 15px 18px;
+            border-bottom: 1px solid #30363d;
+            color: #c9d1d9;
+        }
+        .tech-table tr:hover {
+            background: #161b22;
+        }
+        .tech-table tr:nth-child(even) {
+            background: #21262d;
+        }
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: #1f6feb;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 3px;
+            font-weight: 500;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            color: #c9d1d9;
+        }
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #58a6ff;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+        .code-block {
+            background: #0d1117;
+            color: #c9d1d9;
+            padding: 25px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 20px 0;
+            border-left: 4px solid #1f6feb;
+            border: 1px solid #30363d;
+        }
+        .endpoint-block {
+            background: #1f2330;
+            border-left: 4px solid #d29922;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border: 1px solid #30363d;
+        }
+        .endpoint-block strong {
+            color: #d29922;
+        }
+        .java-section {
+            background: linear-gradient(135deg, #8957e5 0%, #a371f7 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border: 1px solid #30363d;
+        }
+        .java-section h2 {
+            color: white;
+            border-bottom: 2px solid white;
+        }
+        .java-section h3 {
+            color: white;
+        }
+        .java-section .card {
+            background: rgba(0,0,0,0.2);
+            border-left: 4px solid white;
+            color: white;
+            border-color: rgba(255,255,255,0.3);
+        }
+        .java-section .card h4 {
+            color: white;
+        }
+        .java-section .card p {
+            color: rgba(255,255,255,0.95);
+        }
+        .java-section .tech-table {
+            background: rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.3);
+        }
+        .java-section .tech-table th {
+            background: #1f6feb;
+        }
+        .java-section .tech-table td {
+            color: #c9d1d9;
+        }
+        .footer {
+            background: #0d1117;
+            color: #8b949e;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #30363d;
+        }
+        .nav-menu {
+            background: #161b22;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #30363d;
+        }
+        .nav-menu ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .nav-menu a {
+            color: #c9d1d9;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: #21262d;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            border: 1px solid #30363d;
+        }
+        .nav-menu a:hover {
+            background: #1f6feb;
+            color: white;
+            border-color: #1f6feb;
+        }
+        .entity-diagram {
+            background: #161b22;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border: 2px dashed #1f6feb;
+            border: 1px solid #30363d;
+        }
+        .dependency-tree {
+            background: #161b22;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+        }
+        .highlight {
+            background: #1f2330;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+            color: #58a6ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-menu">
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#java-tech">Java Technologies</a></li>
+            <li><a href="#discovery">Discovery Service</a></li>
+            <li><a href="#gateway">API Gateway</a></li>
+            <li><a href="#user">User Service</a></li>
+            <li><a href="#patient">Patient Service</a></li>
+            <li><a href="#doctor">Doctor Service</a></li>
+            <li><a href="#appointment">Appointment Service</a></li>
+            <li><a href="#data-models">Data Models</a></li>
+            <li><a href="#api">API Documentation</a></li>
+            <li><a href="#api-testing">API Testing Guide</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Hospital Management Microservices</h1>
+            <p>Complete Technical Documentation & Architecture Guide</p>
+            <p style="margin-top: 15px; font-size: 1em;">Built with Java 21, Spring Boot 3.2.5, and Modern Microservices Patterns</p>
+        </div>
+
+        <div class="content">
+            <!-- Project Overview Section -->
+            <div class="section" id="overview">
+                <h2>📋 Project Overview</h2>
+                <p>The Hospital Management Microservices project is a comprehensive, production-ready implementation of a microservices architecture designed specifically for healthcare management. This system demonstrates modern Java enterprise application development using cutting-edge technologies and best practices.</p>
+
+                <h3>🎯 Project Objectives</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>Scalability</h4>
+                        <p>Each microservice can be scaled independently based on demand, ensuring optimal resource utilization and performance.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Maintainability</h4>
+                        <p>Separate business domains into distinct services with clear boundaries, making the codebase easier to maintain and evolve.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Resilience</h4>
+                        <p>Implement circuit breakers, retries, and fallback mechanisms to ensure system reliability even when individual services fail.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Flexibility</h4>
+                        <p>Technology-agnostic communication between services allows for independent technology choices and upgrades.</p>
+                    </div>
+                </div>
+
+                <h3>📊 Project Statistics</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Total Microservices</strong></td>
+                            <td>6 (Discovery, Gateway, User, Patient, Doctor, Appointment)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Java Version</strong></td>
+                            <td>Java 21 (Latest LTS)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Spring Boot Version</strong></td>
+                            <td>3.2.5</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Spring Cloud Version</strong></td>
+                            <td>2023.0.1</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total API Endpoints</strong></td>
+                            <td>20+ REST endpoints</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Database Instances</strong></td>
+                            <td>4 separate MySQL databases</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Architecture Section -->
+            <div class="section" id="architecture">
+                <h2>🏗️ System Architecture</h2>
+
+                <h3>Microservices Architecture Pattern</h3>
+                <p>This project implements a true microservices architecture with the following key characteristics:</p>
+                <ul class="feature-list">
+                    <li><strong>Service Autonomy</strong> - Each service is independently deployable and scalable</li>
+                    <li><strong>Database per Service</strong> - Each microservice has its own database instance</li>
+                    <li><strong>Service Discovery</strong> - Dynamic service registration and discovery via Eureka</li>
+                    <li><strong>API Gateway</strong> - Single entry point with routing and load balancing</li>
+                    <li><strong>Inter-Service Communication</strong> - Both synchronous (Feign) and asynchronous (Kafka)</li>
+                    <li><strong>Resilience Patterns</strong> - Circuit breakers, retries, and fallbacks</li>
+                </ul>
+
+                <h3>🔗 Service Communication Flow</h3>
+                <div class="entity-diagram">
+                    <pre style="background: #0d1117; color: #f0f6fc; font-size: 1.1em; border: 1px solid #30363d; padding: 20px; border-radius: 8px;">
+<span style="color: #58a6ff; font-weight: bold;">Client Request</span>
+    <span style="color: #8b949e;">↓</span>
+<span style="color: #58a6ff; font-weight: bold;">API Gateway (Port 8080)</span>
+    <span style="color: #8b949e;">↓</span>
+<span style="color: #58a6ff; font-weight: bold;">Service Discovery (Eureka - Port 8761)</span>
+    <span style="color: #8b949e;">↓</span>
+<span style="color: #f0f6fc;">┌─────────────┬─────────────┬─────────────┬─────────────┐</span>
+<span style="color: #f0f6fc;">│</span> <span style="color: #58a6ff;">User Service</span><span style="color: #f0f6fc;">│</span><span style="color: #58a6ff;">Patient      </span><span style="color: #f0f6fc;">│</span><span style="color: #58a6ff;">Doctor       </span><span style="color: #f0f6fc;">│</span><span style="color: #58a6ff;">Appointment  </span><span style="color: #f0f6fc;">│</span>
+<span style="color: #f0f6fc;">│</span> <span style="color: #8b949e;">(Port 8081) </span><span style="color: #f0f6fc;">│</span><span style="color: #8b949e;">Service      </span><span style="color: #f0f6fc;">│</span><span style="color: #8b949e;">Service      </span><span style="color: #f0f6fc;">│</span><span style="color: #8b949e;">Service      </span><span style="color: #f0f6fc;">│</span>
+<span style="color: #f0f6fc;">│             │</span><span style="color: #8b949e;">(Port 8082)  </span><span style="color: #f0f6fc;">│</span><span style="color: #8b949e;">(Port 8083)  </span><span style="color: #f0f6fc;">│</span><span style="color: #8b949e;">(Port 8084)  </span><span style="color: #f0f6fc;">│</span>
+<span style="color: #f0f6fc;">└─────────────┴─────────────┴─────────────┴─────────────┘</span>
+    <span style="color: #8b949e;">↓</span>              <span style="color: #8b949e;">↓</span>              <span style="color: #8b949e;">↓</span>              <span style="color: #8b949e;">↓</span>
+<span style="color: #58a6ff;">user_db</span>        <span style="color: #58a6ff;">patient_db</span>     <span style="color: #58a6ff;">doctor_db</span>    <span style="color: #58a6ff;">appointment_db</span>
+                    <span style="color: #8b949e;">↑</span>              <span style="color: #8b949e;">↑</span>
+                    <span style="color: #f0f6fc;">└────── </span><span style="color: #8957e5;">Feign Clients</span><span style="color: #f0f6fc;"> ─────┘</span>
+                            <span style="color: #8b949e;">↓</span>
+                    <span style="color: #58a6ff;">Kafka Events (Port 9092)</span>
+                    </pre>
+                </div>
+
+                <h3>🔄 Communication Patterns</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>Synchronous Communication</h4>
+                        <p><strong>Technology:</strong> OpenFeign</p>
+                        <p><strong>Use Case:</strong> When immediate response is required</p>
+                        <p><strong>Example:</strong> Appointment service calls Patient service to validate patient data</p>
+                        <p><strong>Benefits:</strong> Simple to implement, immediate consistency</p>
+                    </div>
+                    <div class="card">
+                        <h4>Asynchronous Communication</h4>
+                        <p><strong>Technology:</strong> Apache Kafka</p>
+                        <p><strong>Use Case:</strong> Event-driven updates and notifications</p>
+                        <p><strong>Example:</strong> Appointment created event triggers notification service</p>
+                        <p><strong>Benefits:</strong> Decoupled services, improved reliability, event sourcing</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Java Technologies Section -->
+            <div class="java-section" id="java-tech">
+                <h2>☕ Java Technologies & Frameworks</h2>
+                <p>This project leverages the latest Java ecosystem technologies to build a robust, scalable microservices architecture.</p>
+
+                <h3>🔧 Core Java Technologies</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Technology</th>
+                            <th>Version</th>
+                            <th>Purpose in Project</th>
+                            <th>Key Features Used</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Java</strong></td>
+                            <td>21</td>
+                            <td>Core programming language</td>
+                            <td>Records, Pattern Matching, Virtual Threads, Switch Expressions</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Maven</strong></td>
+                            <td>3.8+</td>
+                            <td>Build automation & dependency management</td>
+                            <td>Multi-module project, dependency management, plugin configuration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Spring Boot</strong></td>
+                            <td>3.2.5</td>
+                            <td>Core framework for microservices</td>
+                            <td>Auto-configuration, embedded servers, production-ready features</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Spring Cloud</strong></td>
+                            <td>2023.0.1</td>
+                            <td>Microservices infrastructure</td>
+                            <td>Service discovery, API gateway, circuit breakers, configuration</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🌟 Spring Ecosystem Technologies</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>Spring Cloud Gateway</h4>
+                        <p><strong>Version:</strong> Latest (via Spring Cloud)</p>
+                        <p><strong>Role:</strong> API Gateway for routing and filtering</p>
+                        <p><strong>Features:</strong></p>
+                        <ul class="feature-list">
+                            <li>Request routing based on predicates</li>
+                            <li>Load balancing via Eureka</li>
+                            <li>CORS configuration</li>
+                            <li>Path-based routing</li>
+                            <li>Response header manipulation</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Spring Cloud Netflix Eureka</h4>
+                        <p><strong>Version:</strong> Latest (via Spring Cloud)</p>
+                        <p><strong>Role:</strong> Service discovery server and client</p>
+                        <p><strong>Features:</strong></p>
+                        <ul class="feature-list">
+                            <li>Service registration</li>
+                            <li>Service discovery</li>
+                            <li>Health monitoring</li>
+                            <li>Load balancing</li>
+                            <li>Self-preservation mode</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Spring Cloud OpenFeign</h4>
+                        <p><strong>Version:</strong> Latest (via Spring Cloud)</p>
+                        <p><strong>Role:</strong> Declarative REST client for inter-service communication</p>
+                        <p><strong>Features:</strong></p>
+                        <ul class="feature-list">
+                            <li>Declarative REST clients</li>
+                            <li>Built-in load balancing</li>
+                            <li>Circuit breaker integration</li>
+                            <li>Request/response interceptors</li>
+                            <li>Easy service-to-service calls</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Spring Data JPA</h4>
+                        <p><strong>Version:</strong> Latest (via Spring Boot)</p>
+                        <p><strong>Role:</strong> Database operations with repository pattern</p>
+                        <p><strong>Features:</strong></p>
+                        <ul class="feature-list">
+                            <li>Repository pattern</li>
+                            <li>Automatic CRUD operations</li>
+                            <li>Query methods</li>
+                            <li>Pagination support</li>
+                            <li>Entity relationships</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Spring Boot Actuator</h4>
+                        <p><strong>Version:</strong> Latest (via Spring Boot)</p>
+                        <p><strong>Role:</strong> Production-ready monitoring endpoints</p>
+                        <p><strong>Features:</strong></p>
+                        <ul class="feature-list">
+                            <li>Health checks</li>
+                            <li>Metrics collection</li>
+                            <li>Application info</li>
+                            <li>Environment details</li>
+                            <li>HTTP tracing</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Spring Security</h4>
+                        <p><strong>Version:</strong> Latest (via Spring Boot)</p>
+                        <p><strong>Role:</strong> Authentication and authorization</p>
+                        <p><strong>Features:</strong></p>
+                        <ul class="feature-list">
+                            <li>JWT token validation</li>
+                            <li>Password encoding</li>
+                            <li>Role-based access control</li>
+                            <li>Security filters</li>
+                            <li>Authentication providers</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>📚 Additional Java Libraries & Frameworks</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Library/Framework</th>
+                            <th>Version</th>
+                            <th>Usage in Project</th>
+                            <th>Key Functionality</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>JWT (JJWT)</strong></td>
+                            <td>0.12.6</td>
+                            <td>User Service authentication</td>
+                            <td>Token generation, validation, claims parsing</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ModelMapper</strong></td>
+                            <td>3.2.0</td>
+                            <td>Entity-DTO mapping</td>
+                            <td>Object mapping, property matching, type conversion</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Resilience4j</strong></td>
+                            <td>2.1.0</td>
+                            <td>Fault tolerance</td>
+                            <td>Circuit breakers, retries, rate limiting, bulkheads</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Spring Kafka</strong></td>
+                            <td>Latest</td>
+                            <td>Event-driven architecture</td>
+                            <td>Producer/consumer templates, topic management</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MySQL Connector</strong></td>
+                            <td>Latest</td>
+                            <td>Database connectivity</td>
+                            <td>JDBC driver, connection pooling</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lombok</strong></td>
+                            <td>Latest</td>
+                            <td>Code generation</td>
+                            <td>Getters/setters, builders, logging, constructors</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hibernate</strong></td>
+                            <td>Latest (via JPA)</td>
+                            <td>ORM framework</td>
+                            <td>Entity mapping, HQL queries, caching</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🎨 Architecture Patterns Implemented</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>Database per Service Pattern</h4>
+                        <p>Each microservice has its own database instance for data isolation and independent scaling. This ensures that services are loosely coupled and can evolve their data schemas independently.</p>
+                        <p><strong>Databases:</strong> user_db, patient_db, doctor_db, appointment_db</p>
+                    </div>
+                    <div class="card">
+                        <h4>Service Discovery Pattern</h4>
+                        <p>Services register themselves with Eureka server on startup and discover other services dynamically. This eliminates hardcoded service URLs and enables dynamic scaling.</p>
+                        <p><strong>Implementation:</strong> Eureka Server + Eureka Clients</p>
+                    </div>
+                    <div class="card">
+                        <h4>API Gateway Pattern</h4>
+                        <p>Single entry point for all client requests, handling routing, load balancing, and cross-cutting concerns like authentication and rate limiting.</p>
+                        <p><strong>Implementation:</strong> Spring Cloud Gateway</p>
+                    </div>
+                    <div class="card">
+                        <h4>Circuit Breaker Pattern</h4>
+                        <p>Prevents cascading failures by stopping calls to failing services and providing fallback responses. Improves system resilience and user experience.</p>
+                        <p><strong>Implementation:</strong> Resilience4j with custom fallbacks</p>
+                    </div>
+                    <div class="card">
+                        <h4>Event-Driven Architecture</h4>
+                        <p>Services communicate asynchronously through events published to Kafka topics. This decouples services and enables eventual consistency.</p>
+                        <p><strong>Implementation:</strong> Spring Kafka with Appointment events</p>
+                    </div>
+                    <div class="card">
+                        <h4>Saga Pattern</h4>
+                        <p>Distributed transaction management where each service performs local transactions and publishes events to trigger next steps in the saga.</p>
+                        <p><strong>Implementation:</strong> Kafka events for appointment lifecycle</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Discovery Service Section -->
+            <div class="section" id="discovery">
+                <h2>🔍 Discovery Service (Eureka Server)</h2>
+                <p>The Discovery Service is the foundation of the microservices architecture, providing service registration and discovery capabilities.</p>
+
+                <h3>📋 Service Details</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Service Name</strong></td>
+                            <td>discovery-service</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Port</strong></td>
+                            <td>8761</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Technology</strong></td>
+                            <td>Spring Cloud Netflix Eureka Server</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Purpose</strong></td>
+                            <td>Service registry and discovery</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🔧 Configuration Details</h3>
+                <div class="code-block">
+server:
+  port: 8761
+
+spring:
+  application:
+    name: discovery-service
+
+eureka:
+  client:
+    register-with-eureka: false  # Server doesn't register with itself
+    fetch-registry: false       # Server doesn't fetch registry
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  server:
+    enable-self-preservation: false  # Disable for development
+    eviction-interval-timer-in-ms: 5000  # Evict instances every 5 seconds
+                </div>
+
+                <h3>📦 Dependencies</h3>
+                <div class="dependency-tree">
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+                </div>
+
+                <h3>🌐 Access Points</h3>
+                <div class="endpoint-block">
+                    <strong>Eureka Dashboard:</strong> http://localhost:8761<br>
+                    <strong>Health Check:</strong> http://localhost:8761/actuator/health<br>
+                    <strong>Service Registry:</strong> http://localhost:8761/eureka/
+                </div>
+
+                <h3>⚙️ Key Features</h3>
+                <ul class="feature-list">
+                    <li><strong>Service Registration:</strong> All microservices register with Eureka on startup</li>
+                    <li><strong>Service Discovery:</strong> Services can discover other services by name</li>
+                    <li><strong>Health Monitoring:</strong> Automatic health checks and instance eviction</li>
+                    <li><strong>Load Balancing:</strong> Provides service instance information for load balancing</li>
+                    <li><strong>Dashboard:</strong> Web UI for monitoring registered services</li>
+                </ul>
+            </div>
+
+            <!-- API Gateway Section -->
+            <div class="section" id="gateway">
+                <h2>🚪 API Gateway</h2>
+                <p>The API Gateway serves as the single entry point for all client requests, providing routing, load balancing, and cross-cutting concerns.</p>
+
+                <h3>📋 Service Details</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Service Name</strong></td>
+                            <td>api-gateway</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Port</strong></td>
+                            <td>8080</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Technology</strong></td>
+                            <td>Spring Cloud Gateway</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Purpose</strong></td>
+                            <td>Request routing and API management</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🔧 Configuration Details</h3>
+                <div class="code-block">
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/v1/users/**
+          filters:
+            - StripPrefix=2
+        # ... similar routes for other services
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      user-service:
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        sliding-window-size: 10
+                </div>
+
+                <h3>📦 Dependencies</h3>
+                <div class="dependency-tree">
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-gateway&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;io.github.resilience4j&lt;/groupId&gt;
+        &lt;artifactId&gt;resilience4j-spring-boot3&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+                </div>
+
+                <h3>🛣️ Routing Configuration</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Route ID</th>
+                            <th>Path Pattern</th>
+                            <th>Target Service</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>user-service</td>
+                            <td>/api/v1/users/**</td>
+                            <td>user-service</td>
+                            <td>User management endpoints</td>
+                        </tr>
+                        <tr>
+                            <td>user-service-auth</td>
+                            <td>/api/v1/auth/**</td>
+                            <td>user-service</td>
+                            <td>Authentication endpoints</td>
+                        </tr>
+                        <tr>
+                            <td>patient-service</td>
+                            <td>/api/v1/patients/**</td>
+                            <td>patient-service</td>
+                            <td>Patient management endpoints</td>
+                        </tr>
+                        <tr>
+                            <td>doctor-service</td>
+                            <td>/api/v1/doctors/**</td>
+                            <td>doctor-service</td>
+                            <td>Doctor management endpoints</td>
+                        </tr>
+                        <tr>
+                            <td>appointment-service</td>
+                            <td>/api/v1/appointments/**</td>
+                            <td>appointment-service</td>
+                            <td>Appointment management endpoints</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🔒 CORS Configuration</h3>
+                <p>The Gateway is configured to allow CORS requests from the frontend application:</p>
+                <div class="code-block">
+cors-configurations:
+  '[/**]':
+    allowedOrigins:
+      - "http://localhost:4200"
+      - "http://127.0.0.1:4200"
+    allowedMethods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
+    allowedHeaders:
+      - "*"
+    allowCredentials: true
+                </div>
+
+                <h3>⚙️ Key Features</h3>
+                <ul class="feature-list">
+                    <li><strong>Request Routing:</strong> Path-based routing to appropriate microservices</li>
+                    <li><strong>Load Balancing:</strong> Automatic load balancing via Eureka service discovery</li>
+                    <li><strong>Circuit Breaker:</strong> Resilience4j integration for fault tolerance</li>
+                    <li><strong>CORS Support:</strong> Configured for frontend integration</li>
+                    <li><strong>Service Discovery:</strong> Dynamic service discovery via Eureka</li>
+                    <li><strong>Path Stripping:</strong> Removes prefix before routing to services</li>
+                </ul>
+            </div>
+
+            <!-- User Service Section -->
+            <div class="section" id="user">
+                <h2>👤 User Service</h2>
+                <p>The User Service handles user management, authentication, and authorization using JWT tokens.</p>
+
+                <h3>📋 Service Details</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Service Name</strong></td>
+                            <td>user-service</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Port</strong></td>
+                            <td>8081</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Database</strong></td>
+                            <td>user_db (MySQL)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Purpose</strong></td>
+                            <td>User management and authentication</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🔧 Configuration Details</h3>
+                <div class="code-block">
+server:
+  port: 8081
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/user_db
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+jwt:
+  secret: ${JWT_SECRET:change-me-to-a-long-random-secret}
+  expiration: 86400000  # 24 hours
+                </div>
+
+                <h3>📦 Dependencies</h3>
+                <div class="dependency-tree">
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.hospital&lt;/groupId&gt;
+        &lt;artifactId&gt;common&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;
+        &lt;artifactId&gt;jjwt-api&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-j&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+        &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+                </div>
+
+                <h3>🗃️ Data Model</h3>
+                <div class="entity-diagram">
+                    <h4>User Entity</h4>
+                    <pre style="background: transparent; color: #333;">
+@Entity
+@Table(name = "users")
+public class User {
+    private Long id;
+    private String username;      // Unique, required
+    private String password;      // Encrypted, required
+    private String email;         // Unique, required
+    private Role role;           // PATIENT, DOCTOR, ADMIN
+    private LocalDateTime createdAt;
+}
+                    </pre>
+                </div>
+
+                <h3>🎯 API Endpoints</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Endpoint</th>
+                            <th>Description</th>
+                            <th>Request Body</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>POST</strong></td>
+                            <td>/auth/register</td>
+                            <td>Register new user</td>
+                            <td>UserDto (username, password, email, role)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>POST</strong></td>
+                            <td>/auth/login</td>
+                            <td>User login</td>
+                            <td>LoginRequest (username, password)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/auth/validate</td>
+                            <td>Validate JWT token</td>
+                            <td>token (query parameter)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/users/{id}</td>
+                            <td>Get user by ID</td>
+                            <td>None</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/users/username/{username}</td>
+                            <td>Get user by username</td>
+                            <td>None</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🔐 Authentication Flow</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>Registration</h4>
+                        <p>1. Client sends user data to /auth/register</p>
+                        <p>2. Service validates input and checks for duplicates</p>
+                        <p>3. Password is encrypted using BCrypt</p>
+                        <p>4. User is saved to database</p>
+                        <p>5. UserDto is returned to client</p>
+                    </div>
+                    <div class="card">
+                        <h4>Login</h4>
+                        <p>1. Client sends credentials to /auth/login</p>
+                        <p>2. Service validates username and password</p>
+                        <p>3. JWT token is generated with user claims</p>
+                        <p>4. Token and role are returned to client</p>
+                        <p>5. Client stores token for future requests</p>
+                    </div>
+                </div>
+
+                <h3>⚙️ Key Features</h3>
+                <ul class="feature-list">
+                    <li><strong>JWT Authentication:</strong> Stateless token-based authentication</li>
+                    <li><strong>Role-Based Access:</strong> Support for PATIENT, DOCTOR, ADMIN roles</li>
+                    <li><strong>Password Encryption:</strong> BCrypt password encoding</li>
+                    <li><strong>Token Validation:</strong> JWT token validation endpoint</li>
+                    <li><strong>User Management:</strong> CRUD operations for user data</li>
+                    <li><strong>Security Configuration:</strong> Spring Security integration</li>
+                </ul>
+            </div>
+
+            <!-- Patient Service Section -->
+            <div class="section" id="patient">
+                <h2>🤒 Patient Service</h2>
+                <p>The Patient Service manages patient profiles, medical information, and insurance details.</p>
+
+                <h3>📋 Service Details</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Service Name</strong></td>
+                            <td>patient-service</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Port</strong></td>
+                            <td>8082</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Database</strong></td>
+                            <td>patient_db (MySQL)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Purpose</strong></td>
+                            <td>Patient and insurance management</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🔧 Configuration Details</h3>
+                <div class="code-block">
+server:
+  port: 8082
+
+spring:
+  application:
+    name: patient-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/patient_db
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      patientService:
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        sliding-window-size: 10
+                </div>
+
+                <h3>📦 Dependencies</h3>
+                <div class="dependency-tree">
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.hospital&lt;/groupId&gt;
+        &lt;artifactId&gt;common&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;io.github.resilience4j&lt;/groupId&gt;
+        &lt;artifactId&gt;resilience4j-spring-boot3&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.modelmapper&lt;/groupId&gt;
+        &lt;artifactId&gt;modelmapper&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-j&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+                </div>
+
+                <h3>🗃️ Data Models</h3>
+                <div class="entity-diagram">
+                    <h4>Patient Entity</h4>
+                    <pre style="background: transparent; color: #333;">
+@Entity
+@Table(name = "patients")
+public class Patient {
+    private Long id;
+    private String name;                    // Required, max 40 chars
+    private LocalDate birthDate;            // Required, past date
+    private String email;                   // Unique, required
+    private String gender;
+    private BloodGroup bloodGroup;          // A_POSITIVE, A_NEGATIVE, etc.
+    private Long userId;                    // Foreign key to User
+    private LocalDateTime createdAt;
+    private Insurance insurance;             // One-to-one relationship
+}
+                    </pre>
+                    <h4>Insurance Entity</h4>
+                    <pre style="background: transparent; color: #333;">
+@Entity
+@Table(name = "insurance")
+public class Insurance {
+    private Long id;
+    private String providerName;            // Required
+    private String policyNumber;            // Unique, required
+    private BigDecimal coverageAmount;      // Required
+    private Long patientId;                 // Foreign key to Patient
+}
+                    </pre>
+                </div>
+
+                <h3>🎯 API Endpoints</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Endpoint</th>
+                            <th>Description</th>
+                            <th>Circuit Breaker</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>POST</strong></td>
+                            <td>/patients</td>
+                            <td>Create new patient</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/patients/{id}</td>
+                            <td>Get patient by ID</td>
+                            <td>Yes (patientService)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/patients/user/{userId}</td>
+                            <td>Get patient by User ID</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PUT</strong></td>
+                            <td>/patients/{id}</td>
+                            <td>Update patient</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DELETE</strong></td>
+                            <td>/patients/{id}</td>
+                            <td>Delete patient</td>
+                            <td>No</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🛡️ Circuit Breaker Configuration</h3>
+                <div class="endpoint-block">
+                    <strong>Fallback Method:</strong> getPatientFallback<br>
+                    <strong>Trigger:</strong> When patient service is unavailable<br>
+                    <strong>Fallback Response:</strong> Returns a PatientDto with "Service Unavailable" data<br>
+                    <strong>Configuration:</strong> 50% failure rate threshold, 5s wait duration, 10 sliding window size
+                </div>
+
+                <h3>⚙️ Key Features</h3>
+                <ul class="feature-list">
+                    <li><strong>Patient Management:</strong> Complete CRUD operations for patient data</li>
+                    <li><strong>Insurance Integration:</strong> One-to-one relationship with insurance data</li>
+                    <li><strong>Blood Group Tracking:</strong> Support for all blood group types</li>
+                    <li><strong>User Association:</strong> Link patients to user accounts</li>
+                    <li><strong>Circuit Breaker:</strong> Fault tolerance with fallback mechanisms</li>
+                    <li><strong>DTO Mapping:</strong> ModelMapper for entity-DTO conversion</li>
+                </ul>
+            </div>
+
+            <!-- Doctor Service Section -->
+            <div class="section" id="doctor">
+                <h2>👨‍⚕️ Doctor Service</h2>
+                <p>The Doctor Service manages doctor profiles, specializations, and department assignments.</p>
+
+                <h3>📋 Service Details</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Service Name</strong></td>
+                            <td>doctor-service</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Port</strong></td>
+                            <td>8083</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Database</strong></td>
+                            <td>doctor_db (MySQL)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Purpose</strong></td>
+                            <td>Doctor and department management</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🔧 Configuration Details</h3>
+                <div class="code-block">
+server:
+  port: 8083
+
+spring:
+  application:
+    name: doctor-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/doctor_db
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      doctorService:
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        sliding-window-size: 10
+                </div>
+
+                <h3>📦 Dependencies</h3>
+                <div class="dependency-tree">
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.hospital&lt;/groupId&gt;
+        &lt;artifactId&gt;common&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;io.github.resilience4j&lt;/groupId&gt;
+        &lt;artifactId&gt;resilience4j-spring-boot3&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.modelmapper&lt;/groupId&gt;
+        &lt;artifactId&gt;modelmapper&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-j&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+                </div>
+
+                <h3>🗃️ Data Model</h3>
+                <div class="entity-diagram">
+                    <h4>Doctor Entity</h4>
+                    <pre style="background: transparent; color: #333;">
+@Entity
+@Table(name = "doctors")
+public class Doctor {
+    private Long id;
+    private Long userId;                    // Foreign key to User
+    private String name;                    // Required, max 100 chars
+    private String specialization;         // Max 100 chars
+    private String email;                   // Unique, max 100 chars
+    private Set&lt;String&gt; departments;        // Collection of department names
+}
+                    </pre>
+                </div>
+
+                <h3>🎯 API Endpoints</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Endpoint</th>
+                            <th>Description</th>
+                            <th>Circuit Breaker</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>POST</strong></td>
+                            <td>/doctors</td>
+                            <td>Create new doctor</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/doctors/{id}</td>
+                            <td>Get doctor by ID</td>
+                            <td>Yes (doctorService)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/doctors/user/{userId}</td>
+                            <td>Get doctor by User ID</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/doctors</td>
+                            <td>Get all doctors</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PUT</strong></td>
+                            <td>/doctors/{id}</td>
+                            <td>Update doctor</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DELETE</strong></td>
+                            <td>/doctors/{id}</td>
+                            <td>Delete doctor</td>
+                            <td>No</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🛡️ Circuit Breaker Configuration</h3>
+                <div class="endpoint-block">
+                    <strong>Fallback Method:</strong> getDoctorFallback<br>
+                    <strong>Trigger:</strong> When doctor service is unavailable<br>
+                    <strong>Fallback Response:</strong> Returns a DoctorDto with "Service Unavailable" data<br>
+                    <strong>Configuration:</strong> 50% failure rate threshold, 5s wait duration, 10 sliding window size
+                </div>
+
+                <h3>⚙️ Key Features</h3>
+                <ul class="feature-list">
+                    <li><strong>Doctor Management:</strong> Complete CRUD operations for doctor data</li>
+                    <li><strong>Specialization Tracking:</strong> Doctor specialization information</li>
+                    <li><strong>Department Management:</strong> Multiple departments per doctor</li>
+                    <li><strong>User Association:</strong> Link doctors to user accounts</li>
+                    <li><strong>Circuit Breaker:</strong> Fault tolerance with fallback mechanisms</li>
+                    <li><strong>List Operations:</strong> Retrieve all doctors for frontend display</li>
+                </ul>
+            </div>
+
+            <!-- Appointment Service Section -->
+            <div class="section" id="appointment">
+                <h2>📅 Appointment Service</h2>
+                <p>The Appointment Service manages appointment scheduling, inter-service communication, and event-driven updates.</p>
+
+                <h3>📋 Service Details</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Service Name</strong></td>
+                            <td>appointment-service</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Port</strong></td>
+                            <td>8084</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Database</strong></td>
+                            <td>appointment_db (MySQL)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Purpose</strong></td>
+                            <td>Appointment management and events</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🔧 Configuration Details</h3>
+                <div class="code-block">
+server:
+  port: 8084
+
+spring:
+  application:
+    name: appointment-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/appointment_db
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      patientService:
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        sliding-window-size: 10
+      doctorService:
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        sliding-window-size: 10
+                </div>
+
+                <h3>📦 Dependencies</h3>
+                <div class="dependency-tree">
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.hospital&lt;/groupId&gt;
+        &lt;artifactId&gt;common&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.kafka&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-kafka&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;io.github.resilience4j&lt;/groupId&gt;
+        &lt;artifactId&gt;resilience4j-spring-boot3&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.modelmapper&lt;/groupId&gt;
+        &lt;artifactId&gt;modelmapper&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-j&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+                </div>
+
+                <h3>🗃️ Data Model</h3>
+                <div class="entity-diagram">
+                    <h4>Appointment Entity</h4>
+                    <pre style="background: transparent; color: #333;">
+@Entity
+@Table(name = "appointments")
+public class Appointment {
+    private Long id;
+    private LocalDateTime appointmentTime;   // Required
+    private String reason;                   // Max 500 chars
+    private Long patientId;                  // Foreign key to Patient
+    private Long doctorId;                   // Foreign key to Doctor
+    private Status status;                   // SCHEDULED, COMPLETED, CANCELLED
+}
+                    </pre>
+                </div>
+
+                <h3>🔗 Feign Clients (Inter-Service Communication)</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>PatientClient</h4>
+                        <p><strong>Target Service:</strong> patient-service</p>
+                        <p><strong>Endpoint:</strong> GET /patients/{id}</p>
+                        <p><strong>Circuit Breaker:</strong> Yes (patientService)</p>
+                        <p><strong>Fallback:</strong> Returns fallback PatientDto</p>
+                    </div>
+                    <div class="card">
+                        <h4>DoctorClient</h4>
+                        <p><strong>Target Service:</strong> doctor-service</p>
+                        <p><strong>Endpoint:</strong> GET /doctors/{id}</p>
+                        <p><strong>Circuit Breaker:</strong> Yes (doctorService)</p>
+                        <p><strong>Fallback:</strong> Returns fallback DoctorDto</p>
+                    </div>
+                </div>
+
+                <h3>📡 Kafka Event Publishing</h3>
+                <div class="entity-diagram">
+                    <h4>AppointmentEvent Structure</h4>
+                    <pre style="background: transparent; color: #333;">
+public class AppointmentEvent {
+    private Long appointmentId;
+    private String eventType;           // CREATED, CANCELLED, COMPLETED
+    private AppointmentDto appointment;
+    private LocalDateTime timestamp;
+    private Long patientId;
+    private Long doctorId;
+}
+                    </pre>
+                </div>
+
+                <h3>🎯 API Endpoints</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Endpoint</th>
+                            <th>Description</th>
+                            <th>Event Published</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>POST</strong></td>
+                            <td>/appointments</td>
+                            <td>Create appointment</td>
+                            <td>CREATED event</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/appointments/{id}</td>
+                            <td>Get appointment by ID</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PUT</strong></td>
+                            <td>/appointments/{id}/cancel</td>
+                            <td>Cancel appointment</td>
+                            <td>CANCELLED event</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PUT</strong></td>
+                            <td>/appointments/{id}/complete</td>
+                            <td>Complete appointment</td>
+                            <td>COMPLETED event</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>⚙️ Key Features</h3>
+                <ul class="feature-list">
+                    <li><strong>Appointment Management:</strong> Complete CRUD operations for appointments</li>
+                    <li><strong>Inter-Service Communication:</strong> Feign clients for Patient and Doctor services</li>
+                    <li><strong>Event-Driven Architecture:</strong> Kafka events for appointment lifecycle</li>
+                    <li><strong>Status Tracking:</strong> SCHEDULED, COMPLETED, CANCELLED states</li>
+                    <li><strong>Circuit Breakers:</strong> Dual circuit breaker configuration</li>
+                    <li><strong>Validation:</strong> Patient and doctor validation via Feign clients</li>
+                    <li><strong>Event Sourcing:</strong> All state changes published as events</li>
+                </ul>
+            </div>
+
+            <!-- Data Models Section -->
+            <div class="section" id="data-models">
+                <h2>🗃️ Complete Data Models</h2>
+                <p>This section provides detailed information about all data models used across the microservices.</p>
+
+                <h3>📊 Entity Relationship Diagram</h3>
+                <div class="entity-diagram">
+                    <pre style="background: transparent; color: #333; font-size: 1em;">
+┌─────────────┐         ┌─────────────┐         ┌─────────────┐
+│    User     │         │   Patient   │         │   Doctor    │
+│─────────────│         │─────────────│         │─────────────│
+│ id          │◄────────│ userId      │         │ userId      │
+│ username    │         │ id          │         │ id          │
+│ password    │         │ name        │         │ name        │
+│ email       │         │ email       │         │ email       │
+│ role        │         │ birthDate   │         │ specialize  │
+│ createdAt    │         │ gender      │         │ departments │
+└─────────────┘         │ bloodGroup  │         └─────────────┘
+                        │ insurance   │               ▲
+                        └─────────────┘               │
+                                                       │
+                        ┌─────────────┐               │
+                        │ Appointment │───────────────┘
+                        │─────────────│
+                        │ id          │
+                        │ patientId   │───────────────┐
+                        │ doctorId    │               │
+                        │ appointmentTime             │
+                        │ reason      │               │
+                        │ status      │               │
+                        └─────────────┘               │
+                                                       │
+                        ┌─────────────┐               │
+                        │  Insurance  │◄──────────────┘
+                        │─────────────│
+                        │ id          │
+                        │ providerName│
+                        │ policyNumber│
+                        │ coverageAmt │
+                        │ patientId   │
+                        └─────────────┘
+                    </pre>
+                </div>
+
+                <h3>📋 DTO Structures</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>UserDto</h4>
+                        <div class="code-block" style="font-size: 0.85em;">
+private Long id;
+private String username;    // @NotBlank, @Size(3-50)
+private String password;    // @NotBlank, @Size(min=6)
+private String email;       // @Email, @NotBlank
+private String role;
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>PatientDto</h4>
+                        <div class="code-block" style="font-size: 0.85em;">
+private Long id;
+private String name;           // @NotBlank
+private LocalDate birthDate;   // @NotNull, @Past
+private String email;          // @Email, @NotBlank
+private String gender;
+private String bloodGroup;
+private LocalDateTime createdAt;
+private Long userId;
+private InsuranceDto insurance;
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>DoctorDto</h4>
+                        <div class="code-block" style="font-size: 0.85em;">
+private Long id;
+private Long userId;
+private String name;
+private String specialization;
+private String email;
+private Set&lt;String&gt; departments;
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>AppointmentDto</h4>
+                        <div class="code-block" style="font-size: 0.85em;">
+private Long id;
+private LocalDateTime appointmentTime;
+private String reason;
+private Long patientId;
+private Long doctorId;
+private String status;
+private PatientDto patient;
+private DoctorDto doctor;
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>InsuranceDto</h4>
+                        <div class="code-block" style="font-size: 0.85em;">
+private Long id;
+private String providerName;
+private String policyNumber;
+private BigDecimal coverageAmount;
+private Long patientId;
+                        </div>
+                    </div>
+                </div>
+
+                <h3>🔢 Enum Types</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Enum</th>
+                            <th>Values</th>
+                            <th>Used In</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>User.Role</strong></td>
+                            <td>PATIENT, DOCTOR, ADMIN</td>
+                            <td>User entity</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Patient.BloodGroup</strong></td>
+                            <td>A_POSITIVE, A_NEGATIVE, B_POSITIVE, B_NEGATIVE, AB_POSITIVE, AB_NEGATIVE, O_POSITIVE, O_NEGATIVE</td>
+                            <td>Patient entity</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Appointment.Status</strong></td>
+                            <td>SCHEDULED, COMPLETED, CANCELLED</td>
+                            <td>Appointment entity</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- API Documentation Section -->
+            <div class="section" id="api">
+                <h2>🌐 Complete API Documentation</h2>
+                <p>This section provides comprehensive documentation for all API endpoints available through the API Gateway.</p>
+
+                <h3>🔐 Authentication Endpoints (User Service)</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Gateway Path</th>
+                            <th>Service Path</th>
+                            <th>Description</th>
+                            <th>Request Body</th>
+                            <th>Response</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>POST</strong></td>
+                            <td>/api/v1/auth/register</td>
+                            <td>/auth/register</td>
+                            <td>Register new user</td>
+                            <td>UserDto</td>
+                            <td>UserDto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>POST</strong></td>
+                            <td>/api/v1/auth/login</td>
+                            <td>/auth/login</td>
+                            <td>User login</td>
+                            <td>LoginRequest</td>
+                            <td>AuthResponse (token, role)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/api/v1/auth/validate</td>
+                            <td>/auth/validate</td>
+                            <td>Validate token</td>
+                            <td>token (param)</td>
+                            <td>Boolean</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>👤 User Management Endpoints (User Service)</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Gateway Path</th>
+                            <th>Service Path</th>
+                            <th>Description</th>
+                            <th>Parameters</th>
+                            <th>Response</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/api/v1/users/{id}</td>
+                            <td>/users/{id}</td>
+                            <td>Get user by ID</td>
+                            <td>id (path)</td>
+                            <td>UserDto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/api/v1/users/username/{username}</td>
+                            <td>/users/username/{username}</td>
+                            <td>Get user by username</td>
+                            <td>username (path)</td>
+                            <td>UserDto</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🤒 Patient Management Endpoints (Patient Service)</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Gateway Path</th>
+                            <th>Service Path</th>
+                            <th>Description</th>
+                            <th>Parameters</th>
+                            <th>Response</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>POST</strong></td>
+                            <td>/api/v1/patients</td>
+                            <td>/patients</td>
+                            <td>Create patient</td>
+                            <td>PatientDto (body)</td>
+                            <td>PatientDto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/api/v1/patients/{id}</td>
+                            <td>/patients/{id}</td>
+                            <td>Get patient by ID</td>
+                            <td>id (path)</td>
+                            <td>PatientDto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/api/v1/patients/user/{userId}</td>
+                            <td>/patients/user/{userId}</td>
+                            <td>Get patient by User ID</td>
+                            <td>userId (path)</td>
+                            <td>PatientDto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PUT</strong></td>
+                            <td>/api/v1/patients/{id}</td>
+                            <td>/patients/{id}</td>
+                            <td>Update patient</td>
+                            <td>id (path), PatientDto (body)</td>
+                            <td>PatientDto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DELETE</strong></td>
+                            <td>/api/v1/patients/{id}</td>
+                            <td>/patients/{id}</td>
+                            <td>Delete patient</td>
+                            <td>id (path)</td>
+                            <td>204 No Content</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>👨‍⚕️ Doctor Management Endpoints (Doctor Service)</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Gateway Path</th>
+                            <th>Service Path</th>
+                            <th>Description</th>
+                            <th>Parameters</th>
+                            <th>Response</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>POST</strong></td>
+                            <td>/api/v1/doctors</td>
+                            <td>/doctors</td>
+                            <td>Create doctor</td>
+                            <td>DoctorDto (body)</td>
+                            <td>DoctorDto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/api/v1/doctors/{id}</td>
+                            <td>/doctors/{id}</td>
+                            <td>Get doctor by ID</td>
+                            <td>id (path)</td>
+                            <td>DoctorDto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/api/v1/doctors/user/{userId}</td>
+                            <td>/doctors/user/{userId}</td>
+                            <td>Get doctor by User ID</td>
+                            <td>userId (path)</td>
+                            <td>DoctorDto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/api/v1/doctors</td>
+                            <td>/doctors</td>
+                            <td>Get all doctors</td>
+                            <td>None</td>
+                            <td>List&lt;DoctorDto&gt;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PUT</strong></td>
+                            <td>/api/v1/doctors/{id}</td>
+                            <td>/doctors/{id}</td>
+                            <td>Update doctor</td>
+                            <td>id (path), DoctorDto (body)</td>
+                            <td>DoctorDto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DELETE</strong></td>
+                            <td>/api/v1/doctors/{id}</td>
+                            <td>/doctors/{id}</td>
+                            <td>Delete doctor</td>
+                            <td>id (path)</td>
+                            <td>204 No Content</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>📅 Appointment Management Endpoints (Appointment Service)</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Gateway Path</th>
+                            <th>Service Path</th>
+                            <th>Description</th>
+                            <th>Parameters</th>
+                            <th>Response</th>
+                            <th>Kafka Event</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>POST</strong></td>
+                            <td>/api/v1/appointments</td>
+                            <td>/appointments</td>
+                            <td>Create appointment</td>
+                            <td>AppointmentDto (body)</td>
+                            <td>AppointmentDto</td>
+                            <td>CREATED</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GET</strong></td>
+                            <td>/api/v1/appointments/{id}</td>
+                            <td>/appointments/{id}</td>
+                            <td>Get appointment by ID</td>
+                            <td>id (path)</td>
+                            <td>AppointmentDto</td>
+                            <td>None</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PUT</strong></td>
+                            <td>/api/v1/appointments/{id}/cancel</td>
+                            <td>/appointments/{id}/cancel</td>
+                            <td>Cancel appointment</td>
+                            <td>id (path)</td>
+                            <td>AppointmentDto</td>
+                            <td>CANCELLED</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PUT</strong></td>
+                            <td>/api/v1/appointments/{id}/complete</td>
+                            <td>/appointments/{id}/complete</td>
+                            <td>Complete appointment</td>
+                            <td>id (path)</td>
+                            <td>AppointmentDto</td>
+                            <td>COMPLETED</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>📊 Example API Requests</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>Register User</h4>
+                        <div class="code-block" style="font-size: 0.85em;">
+POST http://localhost:8080/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "john_doe",
+  "password": "password123",
+  "email": "john@example.com",
+  "role": "PATIENT"
+}
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Create Patient</h4>
+                        <div class="code-block" style="font-size: 0.85em;">
+POST http://localhost:8080/api/v1/patients
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "birthDate": "1990-01-01",
+  "email": "john@example.com",
+  "gender": "MALE",
+  "bloodGroup": "A_POSITIVE",
+  "userId": 1
+}
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Create Doctor</h4>
+                        <div class="code-block" style="font-size: 0.85em;">
+POST http://localhost:8080/api/v1/doctors
+Content-Type: application/json
+
+{
+  "name": "Dr. Smith",
+  "specialization": "Cardiology",
+  "email": "smith@example.com",
+  "departments": ["Cardiology", "Internal Medicine"],
+  "userId": 2
+}
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Create Appointment</h4>
+                        <div class="code-block" style="font-size: 0.85em;">
+POST http://localhost:8080/api/v1/appointments
+Content-Type: application/json
+
+{
+  "appointmentTime": "2024-12-01 10:00:00",
+  "reason": "Regular checkup",
+  "patientId": 1,
+  "doctorId": 1
+}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Testing Guide Section -->
+            <div class="section" id="api-testing">
+                <h2>🧪 Complete API Testing Guide</h2>
+                <p>This section provides detailed request/response examples for all API endpoints including headers, request bodies, and expected responses.</p>
+                
+                <h3>📋 Common Headers</h3>
+                <div class="code-block">
+Content-Type: application/json
+Accept: application/json
+# For authenticated requests:
+Authorization: Bearer {jwt_token}
+                </div>
+
+                <h3>🔐 Authentication Endpoints</h3>
+                
+                <div class="card">
+                    <h4>POST /api/v1/auth/register - Register New User</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+
+<strong>Request Body:</strong>
+{
+  "username": "john_doe",
+  "password": "password123",
+  "email": "john@example.com",
+  "role": "PATIENT"
+}
+
+<strong>Response (200 OK):</strong>
+{
+  "id": 1,
+  "username": "john_doe",
+  "email": "john@example.com",
+  "role": "PATIENT"
+}
+
+<strong>Response (400 Bad Request):</strong>
+{
+  "message": "Username already exists"
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>POST /api/v1/auth/login - User Login</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+
+<strong>Request Body:</strong>
+{
+  "username": "john_doe",
+  "password": "password123"
+}
+
+<strong>Response (200 OK):</strong>
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "role": "PATIENT"
+}
+
+<strong>Response (401 Unauthorized):</strong>
+{
+  "message": "Invalid credentials"
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>GET /api/v1/auth/validate?token={jwt_token} - Validate Token</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+
+<strong>Query Parameters:</strong>
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+<strong>Response (200 OK):</strong>
+true
+
+<strong>Response (200 OK):</strong>
+false
+                    </div>
+                </div>
+
+                <h3>👤 User Management Endpoints</h3>
+                
+                <div class="card">
+                    <h4>GET /api/v1/users/{id} - Get User by ID</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Path Parameters:</strong>
+id: 1
+
+<strong>Response (200 OK):</strong>
+{
+  "id": 1,
+  "username": "john_doe",
+  "email": "john@example.com",
+  "role": "PATIENT"
+}
+
+<strong>Response (404 Not Found):</strong>
+{
+  "message": "User not found"
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>GET /api/v1/users/username/{username} - Get User by Username</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Path Parameters:</strong>
+username: john_doe
+
+<strong>Response (200 OK):</strong>
+{
+  "id": 1,
+  "username": "john_doe",
+  "email": "john@example.com",
+  "role": "PATIENT"
+}
+
+<strong>Response (404 Not Found):</strong>
+{
+  "message": "User not found"
+}
+                    </div>
+                </div>
+
+                <h3>🤒 Patient Management Endpoints</h3>
+                
+                <div class="card">
+                    <h4>POST /api/v1/patients - Create Patient</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Request Body:</strong>
+{
+  "name": "John Doe",
+  "birthDate": "1990-01-01",
+  "email": "john@example.com",
+  "gender": "MALE",
+  "bloodGroup": "A_POSITIVE",
+  "userId": 1,
+  "insurance": {
+    "providerName": "HealthPlus",
+    "policyNumber": "POL123456",
+    "coverageAmount": 50000.00
+  }
+}
+
+<strong>Response (201 Created):</strong>
+{
+  "id": 1,
+  "name": "John Doe",
+  "birthDate": "1990-01-01",
+  "email": "john@example.com",
+  "gender": "MALE",
+  "bloodGroup": "A_POSITIVE",
+  "userId": 1,
+  "createdAt": "2024-01-15T10:30:00",
+  "insurance": {
+    "id": 1,
+    "providerName": "HealthPlus",
+    "policyNumber": "POL123456",
+    "coverageAmount": 50000.00,
+    "patientId": 1
+  }
+}
+
+<strong>Response (400 Bad Request):</strong>
+{
+  "message": "Email already exists"
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>GET /api/v1/patients/{id} - Get Patient by ID</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Path Parameters:</strong>
+id: 1
+
+<strong>Response (200 OK):</strong>
+{
+  "id": 1,
+  "name": "John Doe",
+  "birthDate": "1990-01-01",
+  "email": "john@example.com",
+  "gender": "MALE",
+  "bloodGroup": "A_POSITIVE",
+  "userId": 1,
+  "createdAt": "2024-01-15T10:30:00",
+  "insurance": {
+    "id": 1,
+    "providerName": "HealthPlus",
+    "policyNumber": "POL123456",
+    "coverageAmount": 50000.00,
+    "patientId": 1
+  }
+}
+
+<strong>Response (404 Not Found):</strong>
+{
+  "message": "Patient not found"
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>GET /api/v1/patients/user/{userId} - Get Patient by User ID</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Path Parameters:</strong>
+userId: 1
+
+<strong>Response (200 OK):</strong>
+{
+  "id": 1,
+  "name": "John Doe",
+  "birthDate": "1990-01-01",
+  "email": "john@example.com",
+  "gender": "MALE",
+  "bloodGroup": "A_POSITIVE",
+  "userId": 1,
+  "createdAt": "2024-01-15T10:30:00",
+  "insurance": {
+    "id": 1,
+    "providerName": "HealthPlus",
+    "policyNumber": "POL123456",
+    "coverageAmount": 50000.00,
+    "patientId": 1
+  }
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>PUT /api/v1/patients/{id} - Update Patient</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Path Parameters:</strong>
+id: 1
+
+<strong>Request Body:</strong>
+{
+  "name": "John Smith",
+  "birthDate": "1990-01-01",
+  "email": "john.smith@example.com",
+  "gender": "MALE",
+  "bloodGroup": "A_POSITIVE",
+  "userId": 1
+}
+
+<strong>Response (200 OK):</strong>
+{
+  "id": 1,
+  "name": "John Smith",
+  "birthDate": "1990-01-01",
+  "email": "john.smith@example.com",
+  "gender": "MALE",
+  "bloodGroup": "A_POSITIVE",
+  "userId": 1,
+  "createdAt": "2024-01-15T10:30:00"
+}
+
+<strong>Response (404 Not Found):</strong>
+{
+  "message": "Patient not found"
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>DELETE /api/v1/patients/{id} - Delete Patient</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Path Parameters:</strong>
+id: 1
+
+<strong>Response (204 No Content):</strong>
+[No response body]
+
+<strong>Response (404 Not Found):</strong>
+{
+  "message": "Patient not found"
+}
+                    </div>
+                </div>
+
+                <h3>👨‍⚕️ Doctor Management Endpoints</h3>
+                
+                <div class="card">
+                    <h4>POST /api/v1/doctors - Create Doctor</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Request Body:</strong>
+{
+  "name": "Dr. Sarah Smith",
+  "specialization": "Cardiology",
+  "email": "sarah.smith@example.com",
+  "departments": ["Cardiology", "Internal Medicine"],
+  "userId": 2
+}
+
+<strong>Response (201 Created):</strong>
+{
+  "id": 1,
+  "name": "Dr. Sarah Smith",
+  "specialization": "Cardiology",
+  "email": "sarah.smith@example.com",
+  "departments": ["Cardiology", "Internal Medicine"],
+  "userId": 2
+}
+
+<strong>Response (400 Bad Request):</strong>
+{
+  "message": "Email already exists"
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>GET /api/v1/doctors/{id} - Get Doctor by ID</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Path Parameters:</strong>
+id: 1
+
+<strong>Response (200 OK):</strong>
+{
+  "id": 1,
+  "name": "Dr. Sarah Smith",
+  "specialization": "Cardiology",
+  "email": "sarah.smith@example.com",
+  "departments": ["Cardiology", "Internal Medicine"],
+  "userId": 2
+}
+
+<strong>Response (404 Not Found):</strong>
+{
+  "message": "Doctor not found"
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>GET /api/v1/doctors/user/{userId} - Get Doctor by User ID</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Path Parameters:</strong>
+userId: 2
+
+<strong>Response (200 OK):</strong>
+{
+  "id": 1,
+  "name": "Dr. Sarah Smith",
+  "specialization": "Cardiology",
+  "email": "sarah.smith@example.com",
+  "departments": ["Cardiology", "Internal Medicine"],
+  "userId": 2
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>GET /api/v1/doctors - Get All Doctors</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Response (200 OK):</strong>
+[
+  {
+    "id": 1,
+    "name": "Dr. Sarah Smith",
+    "specialization": "Cardiology",
+    "email": "sarah.smith@example.com",
+    "departments": ["Cardiology", "Internal Medicine"],
+    "userId": 2
+  },
+  {
+    "id": 2,
+    "name": "Dr. John Johnson",
+    "specialization": "Neurology",
+    "email": "john.johnson@example.com",
+    "departments": ["Neurology"],
+    "userId": 3
+  }
+]
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>PUT /api/v1/doctors/{id} - Update Doctor</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Path Parameters:</strong>
+id: 1
+
+<strong>Request Body:</strong>
+{
+  "name": "Dr. Sarah Johnson",
+  "specialization": "Cardiology",
+  "email": "sarah.johnson@example.com",
+  "departments": ["Cardiology", "Internal Medicine", "Emergency"],
+  "userId": 2
+}
+
+<strong>Response (200 OK):</strong>
+{
+  "id": 1,
+  "name": "Dr. Sarah Johnson",
+  "specialization": "Cardiology",
+  "email": "sarah.johnson@example.com",
+  "departments": ["Cardiology", "Internal Medicine", "Emergency"],
+  "userId": 2
+}
+
+<strong>Response (404 Not Found):</strong>
+{
+  "message": "Doctor not found"
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>DELETE /api/v1/doctors/{id} - Delete Doctor</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Path Parameters:</strong>
+id: 1
+
+<strong>Response (204 No Content):</strong>
+[No response body]
+
+<strong>Response (404 Not Found):</strong>
+{
+  "message": "Doctor not found"
+}
+                    </div>
+                </div>
+
+                <h3>📅 Appointment Management Endpoints</h3>
+                
+                <div class="card">
+                    <h4>POST /api/v1/appointments - Create Appointment</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Request Body:</strong>
+{
+  "appointmentTime": "2024-12-01 10:00:00",
+  "reason": "Regular checkup",
+  "patientId": 1,
+  "doctorId": 1
+}
+
+<strong>Response (201 Created):</strong>
+{
+  "id": 1,
+  "appointmentTime": "2024-12-01T10:00:00",
+  "reason": "Regular checkup",
+  "patientId": 1,
+  "doctorId": 1,
+  "status": "SCHEDULED",
+  "patient": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com"
+  },
+  "doctor": {
+    "id": 1,
+    "name": "Dr. Sarah Smith",
+    "email": "sarah.smith@example.com"
+  }
+}
+
+<strong>Response (400 Bad Request):</strong>
+{
+  "message": "Patient not found"
+}
+
+<strong>Response (400 Bad Request):</strong>
+{
+  "message": "Doctor not found"
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>GET /api/v1/appointments/{id} - Get Appointment by ID</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Path Parameters:</strong>
+id: 1
+
+<strong>Response (200 OK):</strong>
+{
+  "id": 1,
+  "appointmentTime": "2024-12-01T10:00:00",
+  "reason": "Regular checkup",
+  "patientId": 1,
+  "doctorId": 1,
+  "status": "SCHEDULED",
+  "patient": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com"
+  },
+  "doctor": {
+    "id": 1,
+    "name": "Dr. Sarah Smith",
+    "email": "sarah.smith@example.com"
+  }
+}
+
+<strong>Response (404 Not Found):</strong>
+{
+  "message": "Appointment not found"
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>PUT /api/v1/appointments/{id}/cancel - Cancel Appointment</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Path Parameters:</strong>
+id: 1
+
+<strong>Response (200 OK):</strong>
+{
+  "id": 1,
+  "appointmentTime": "2024-12-01T10:00:00",
+  "reason": "Regular checkup",
+  "patientId": 1,
+  "doctorId": 1,
+  "status": "CANCELLED",
+  "patient": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com"
+  },
+  "doctor": {
+    "id": 1,
+    "name": "Dr. Sarah Smith",
+    "email": "sarah.smith@example.com"
+  }
+}
+
+<strong>Response (404 Not Found):</strong>
+{
+  "message": "Appointment not found"
+}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>PUT /api/v1/appointments/{id}/complete - Complete Appointment</h4>
+                    <div class="code-block">
+<strong>Request Headers:</strong>
+Content-Type: application/json
+Authorization: Bearer {jwt_token}
+
+<strong>Path Parameters:</strong>
+id: 1
+
+<strong>Response (200 OK):</strong>
+{
+  "id": 1,
+  "appointmentTime": "2024-12-01T10:00:00",
+  "reason": "Regular checkup",
+  "patientId": 1,
+  "doctorId": 1,
+  "status": "COMPLETED",
+  "patient": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com"
+  },
+  "doctor": {
+    "id": 1,
+    "name": "Dr. Sarah Smith",
+    "email": "sarah.smith@example.com"
+  }
+}
+
+<strong>Response (404 Not Found):</strong>
+{
+  "message": "Appointment not found"
+}
+                    </div>
+                </div>
+
+                <h3>🧪 Interactive API Tester (Postman-like)</h3>
+                <div class="card">
+                    <h4>Test APIs Directly from Documentation</h4>
+                    <p>Select an endpoint, fill in the parameters, and send requests directly from this page.</p>
+                    
+                    <div class="code-block" style="background: #0d1117; border: 1px solid #30363d;">
+                        <div style="margin-bottom: 15px;">
+                            <label style="color: #58a6ff; font-weight: bold; margin-right: 10px;">Select Endpoint:</label>
+                            <select id="endpointSelect" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 8px; border-radius: 5px; width: 300px;">
+                                <option value="">-- Choose an endpoint --</option>
+                                <optgroup label="Authentication">
+                                    <option value="POST:/api/v1/auth/register">POST /api/v1/auth/register</option>
+                                    <option value="POST:/api/v1/auth/login">POST /api/v1/auth/login</option>
+                                    <option value="GET:/api/v1/auth/validate">GET /api/v1/auth/validate</option>
+                                </optgroup>
+                                <optgroup label="User Management">
+                                    <option value="GET:/api/v1/users/{id}">GET /api/v1/users/{id}</option>
+                                    <option value="GET:/api/v1/users/username/{username}">GET /api/v1/users/username/{username}</option>
+                                </optgroup>
+                                <optgroup label="Patient Management">
+                                    <option value="POST:/api/v1/patients">POST /api/v1/patients</option>
+                                    <option value="GET:/api/v1/patients/{id}">GET /api/v1/patients/{id}</option>
+                                    <option value="GET:/api/v1/patients/user/{userId}">GET /api/v1/patients/user/{userId}</option>
+                                    <option value="PUT:/api/v1/patients/{id}">PUT /api/v1/patients/{id}</option>
+                                    <option value="DELETE:/api/v1/patients/{id}">DELETE /api/v1/patients/{id}</option>
+                                </optgroup>
+                                <optgroup label="Doctor Management">
+                                    <option value="POST:/api/v1/doctors">POST /api/v1/doctors</option>
+                                    <option value="GET:/api/v1/doctors/{id}">GET /api/v1/doctors/{id}</option>
+                                    <option value="GET:/api/v1/doctors/user/{userId}">GET /api/v1/doctors/user/{userId}</option>
+                                    <option value="GET:/api/v1/doctors">GET /api/v1/doctors</option>
+                                    <option value="PUT:/api/v1/doctors/{id}">PUT /api/v1/doctors/{id}</option>
+                                    <option value="DELETE:/api/v1/doctors/{id}">DELETE /api/v1/doctors/{id}</option>
+                                </optgroup>
+                                <optgroup label="Appointment Management">
+                                    <option value="POST:/api/v1/appointments">POST /api/v1/appointments</option>
+                                    <option value="GET:/api/v1/appointments/{id}">GET /api/v1/appointments/{id}</option>
+                                    <option value="PUT:/api/v1/appointments/{id}/cancel">PUT /api/v1/appointments/{id}/cancel</option>
+                                    <option value="PUT:/api/v1/appointments/{id}/complete">PUT /api/v1/appointments/{id}/complete</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="color: #58a6ff; font-weight: bold; margin-right: 10px;">Base URL:</label>
+                            <input type="text" id="baseUrl" value="http://localhost:8080" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 8px; border-radius: 5px; width: 300px;">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="color: #58a6ff; font-weight: bold; margin-right: 10px;">JWT Token (for authenticated requests):</label>
+                            <input type="text" id="jwtToken" placeholder="Paste your JWT token here" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 8px; border-radius: 5px; width: 500px;">
+                        </div>
+
+                        <div id="pathParamsSection" style="margin-bottom: 15px; display: none;">
+                            <label style="color: #58a6ff; font-weight: bold; margin-right: 10px;">Path Parameters:</label>
+                            <div id="pathParamsContainer"></div>
+                        </div>
+
+                        <div id="queryParamsSection" style="margin-bottom: 15px; display: none;">
+                            <label style="color: #58a6ff; font-weight: bold; margin-right: 10px;">Query Parameters:</label>
+                            <div id="queryParamsContainer"></div>
+                        </div>
+
+                        <div id="requestBodySection" style="margin-bottom: 15px; display: none;">
+                            <label style="color: #58a6ff; font-weight: bold; margin-right: 10px;">Request Body (JSON):</label>
+                            <textarea id="requestBody" rows="8" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 10px; border-radius: 5px; width: 100%; font-family: 'Courier New', monospace;"></textarea>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <button onclick="sendRequest()" style="background: #1f6feb; color: white; border: none; padding: 12px 24px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-right: 10px;">Send Request</button>
+                            <button onclick="clearResponse()" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 12px 24px; border-radius: 5px; cursor: pointer;">Clear Response</button>
+                        </div>
+
+                        <div id="responseSection" style="display: none;">
+                            <label style="color: #58a6ff; font-weight: bold; margin-right: 10px;">Response:</label>
+                            <div style="margin-bottom: 10px;">
+                                <span id="statusCode" style="color: #58a6ff; font-weight: bold;"></span>
+                                <span id="responseTime" style="color: #8b949e; margin-left: 15px;"></span>
+                            </div>
+                            <pre id="responseBody" style="background: #0d1117; color: #c9d1d9; padding: 15px; border-radius: 5px; border: 1px solid #30363d; overflow-x: auto; max-height: 400px;"></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>cURL Examples</h4>
+                    <div class="code-block" style="font-size: 0.85em;">
+# Register User
+curl -X POST http://localhost:8080/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"username":"john_doe","password":"password123","email":"john@example.com","role":"PATIENT"}'
+
+# Login
+curl -X POST http://localhost:8080/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"john_doe","password":"password123"}'
+
+# Create Patient
+curl -X POST http://localhost:8080/api/v1/patients \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  -d '{"name":"John Doe","birthDate":"1990-01-01","email":"john@example.com","gender":"MALE","bloodGroup":"A_POSITIVE","userId":1}'
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>Postman Collection</h4>
+                    <p>Import the following endpoints into Postman:</p>
+                    <ul class="feature-list">
+                        <li>Base URL: http://localhost:8080/api/v1</li>
+                        <li>Create environment variable: {{base_url}}</li>
+                        <li>Add authentication: Bearer Token</li>
+                        <li>Create collections for each service</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Common Error Responses</h4>
+                    <div class="code-block" style="font-size: 0.85em;">
+# 400 Bad Request
+{
+  "message": "Validation error",
+  "errors": ["Email is required", "Password must be at least 6 characters"]
+}
+
+# 401 Unauthorized
+{
+  "message": "Invalid or expired token"
+}
+
+# 404 Not Found
+{
+  "message": "Resource not found"
+}
+
+# 500 Internal Server Error
+{
+  "message": "Internal server error",
+  "error": "Database connection failed"
+}
+                    </div>
+                </div>
+
+                <h3>📝 Testing Checklist</h3>
+                <div class="card">
+                    <h4>Complete Testing Workflow</h4>
+                    <ul class="feature-list">
+                        <li><strong>Step 1:</strong> Register a new user via POST /api/v1/auth/register</li>
+                        <li><strong>Step 2:</strong> Login to get JWT token via POST /api/v1/auth/login</li>
+                        <li><strong>Step 3:</strong> Store the JWT token for authenticated requests</li>
+                        <li><strong>Step 4:</strong> Create patient profile via POST /api/v1/patients</li>
+                        <li><strong>Step 5:</strong> Create doctor profile via POST /api/v1/doctors</li>
+                        <li><strong>Step 6:</strong> Create appointment via POST /api/v1/appointments</li>
+                        <li><strong>Step 7:</strong> Test appointment status changes (cancel/complete)</li>
+                        <li><strong>Step 8:</strong> Test GET endpoints for data retrieval</li>
+                        <li><strong>Step 9:</strong> Test PUT endpoints for updates</li>
+                        <li><strong>Step 10:</strong> Test DELETE endpoints for cleanup</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Common Module Section -->
+            <div class="section">
+                <h2>📦 Common Module</h2>
+                <p>The Common module contains shared DTOs, events, and utilities used across multiple microservices.</p>
+
+                <h3>📋 Module Structure</h3>
+                <div class="code-block">
+common/
+├── src/main/java/com/hospital/common/
+│   ├── dto/
+│   │   ├── UserDto.java
+│   │   ├── PatientDto.java
+│   │   ├── DoctorDto.java
+│   │   ├── AppointmentDto.java
+│   │   └── InsuranceDto.java
+│   └── event/
+│       └── AppointmentEvent.java
+└── pom.xml
+                </div>
+
+                <h3>🎯 Purpose</h3>
+                <ul class="feature-list">
+                    <li><strong>Code Reusability:</strong> Shared DTOs avoid duplication across services</li>
+                    <li><strong>Type Safety:</strong> Consistent data structures across microservices</li>
+                    <li><strong>Event Definitions:</strong> Centralized event structure for Kafka</li>
+                    <li><strong>Validation:</strong> Common validation annotations for DTOs</li>
+                    <li><strong>Maintenance:</strong> Single source of truth for shared contracts</li>
+                </ul>
+            </div>
+
+            <!-- Deployment Section -->
+            <div class="section">
+                <h2>🚀 Deployment & Operations</h2>
+
+                <h3>📋 Prerequisites</h3>
+                <table class="tech-table">
+                    <thead>
+                        <tr>
+                            <th>Software</th>
+                            <th>Version</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Java</strong></td>
+                            <td>21 or higher</td>
+                            <td>Runtime environment</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Maven</strong></td>
+                            <td>3.8+</td>
+                            <td>Build tool</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MySQL</strong></td>
+                            <td>8.0+</td>
+                            <td>Database</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Apache Kafka</strong></td>
+                            <td>2.8+</td>
+                            <td>Event streaming</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Docker</strong></td>
+                            <td>Latest (optional)</td>
+                            <td>Containerization</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🗄️ Database Setup</h3>
+                <div class="code-block">
+-- Create databases
+CREATE DATABASE user_db;
+CREATE DATABASE patient_db;
+CREATE DATABASE doctor_db;
+CREATE DATABASE appointment_db;
+
+-- Default credentials
+-- Username: root
+-- Password: (set via MYSQL_PASSWORD environment variable)
+-- Port: 3306
+                </div>
+
+                <h3>🔄 Startup Sequence</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>Step 1: Discovery Service</h4>
+                        <p>cd discovery-service</p>
+                        <p>mvn spring-boot:run</p>
+                        <p><strong>Port:</strong> 8761</p>
+                    </div>
+                    <div class="card">
+                        <h4>Step 2: API Gateway</h4>
+                        <p>cd api-gateway</p>
+                        <p>mvn spring-boot:run</p>
+                        <p><strong>Port:</strong> 8080</p>
+                    </div>
+                    <div class="card">
+                        <h4>Step 3: User Service</h4>
+                        <p>cd user-service</p>
+                        <p>mvn spring-boot:run</p>
+                        <p><strong>Port:</strong> 8081</p>
+                    </div>
+                    <div class="card">
+                        <h4>Step 4: Patient Service</h4>
+                        <p>cd patient-service</p>
+                        <p>mvn spring-boot:run</p>
+                        <p><strong>Port:</strong> 8082</p>
+                    </div>
+                    <div class="card">
+                        <h4>Step 5: Doctor Service</h4>
+                        <p>cd doctor-service</p>
+                        <p>mvn spring-boot:run</p>
+                        <p><strong>Port:</strong> 8083</p>
+                    </div>
+                    <div class="card">
+                        <h4>Step 6: Appointment Service</h4>
+                        <p>cd appointment-service</p>
+                        <p>mvn spring-boot:run</p>
+                        <p><strong>Port:</strong> 8084</p>
+                    </div>
+                </div>
+
+                <h3>✅ Verification</h3>
+                <div class="endpoint-block">
+                    <strong>Eureka Dashboard:</strong> http://localhost:8761<br>
+                    <strong>API Gateway:</strong> http://localhost:8080<br>
+                    <strong>Gateway Health:</strong> http://localhost:8080/actuator/health<br>
+                    <strong>User Service Health:</strong> http://localhost:8081/actuator/health<br>
+                    <strong>Patient Service Health:</strong> http://localhost:8082/actuator/health<br>
+                    <strong>Doctor Service Health:</strong> http://localhost:8083/actuator/health<br>
+                    <strong>Appointment Service Health:</strong> http://localhost:8084/actuator/health
+                </div>
+            </div>
+
+            <!-- Future Enhancements Section -->
+            <div class="section">
+                <h2>🚀 Future Enhancements</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>Distributed Tracing</h4>
+                        <p>Add Zipkin/Sleuth for request tracing across services to debug performance issues and track request flows.</p>
+                    </div>
+                    <div class="card">
+                        <h4>OAuth2 Authentication</h4>
+                        <p>Implement OAuth2 for external authentication providers like Google, Facebook, or enterprise SSO.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Redis Caching</h4>
+                        <p>Add caching layer for frequently accessed data like doctor lists and patient information.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Elasticsearch</h4>
+                        <p>Implement advanced search capabilities for doctors, patients, and appointments with full-text search.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Monitoring Stack</h4>
+                        <p>Add Prometheus + Grafana for comprehensive monitoring, metrics collection, and alerting.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Containerization</h4>
+                        <p>Full Docker containerization and Kubernetes orchestration for production deployment.</p>
+                    </div>
+                    <div class="card">
+                        <h4>API Versioning</h4>
+                        <p>Implement API versioning to support backward compatibility and smooth migrations.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Rate Limiting</h4>
+                        <p>Add rate limiting at gateway level to prevent abuse and ensure fair usage.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Request Logging</h4>
+                        <p>Add comprehensive request/response logging for auditing and debugging purposes.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Notification Service</h4>
+                        <p>Create a dedicated notification service for email, SMS, and push notifications.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Hospital Management Microservices - Complete Technical Documentation</p>
+            <p>Built with Java 21, Spring Boot 3.2.5, Spring Cloud 2023.0.1</p>
+            <p>© 2024 - Educational Project | Microservices Architecture Implementation</p>
+        </div>
+    </div>
+
+    <script>
+        // Endpoint configurations with sample request bodies
+        const endpointConfigs = {
+            'POST:/api/v1/auth/register': {
+                method: 'POST',
+                hasBody: true,
+                sampleBody: {
+                    username: "john_doe",
+                    password: "password123",
+                    email: "john@example.com",
+                    role: "PATIENT"
+                }
+            },
+            'POST:/api/v1/auth/login': {
+                method: 'POST',
+                hasBody: true,
+                sampleBody: {
+                    username: "john_doe",
+                    password: "password123"
+                }
+            },
+            'GET:/api/v1/auth/validate': {
+                method: 'GET',
+                hasQueryParams: true,
+                queryParams: ['token']
+            },
+            'GET:/api/v1/users/{id}': {
+                method: 'GET',
+                hasPathParams: true,
+                pathParams: ['id']
+            },
+            'GET:/api/v1/users/username/{username}': {
+                method: 'GET',
+                hasPathParams: true,
+                pathParams: ['username']
+            },
+            'POST:/api/v1/patients': {
+                method: 'POST',
+                hasBody: true,
+                sampleBody: {
+                    name: "John Doe",
+                    birthDate: "1990-01-01",
+                    email: "john@example.com",
+                    gender: "MALE",
+                    bloodGroup: "A_POSITIVE",
+                    userId: 1,
+                    insurance: {
+                        providerName: "HealthPlus",
+                        policyNumber: "POL123456",
+                        coverageAmount: 50000.00
+                    }
+                }
+            },
+            'GET:/api/v1/patients/{id}': {
+                method: 'GET',
+                hasPathParams: true,
+                pathParams: ['id']
+            },
+            'GET:/api/v1/patients/user/{userId}': {
+                method: 'GET',
+                hasPathParams: true,
+                pathParams: ['userId']
+            },
+            'PUT:/api/v1/patients/{id}': {
+                method: 'PUT',
+                hasPathParams: true,
+                pathParams: ['id'],
+                hasBody: true,
+                sampleBody: {
+                    name: "John Smith",
+                    birthDate: "1990-01-01",
+                    email: "john.smith@example.com",
+                    gender: "MALE",
+                    bloodGroup: "A_POSITIVE",
+                    userId: 1
+                }
+            },
+            'DELETE:/api/v1/patients/{id}': {
+                method: 'DELETE',
+                hasPathParams: true,
+                pathParams: ['id']
+            },
+            'POST:/api/v1/doctors': {
+                method: 'POST',
+                hasBody: true,
+                sampleBody: {
+                    name: "Dr. Sarah Smith",
+                    specialization: "Cardiology",
+                    email: "sarah.smith@example.com",
+                    departments: ["Cardiology", "Internal Medicine"],
+                    userId: 2
+                }
+            },
+            'GET:/api/v1/doctors/{id}': {
+                method: 'GET',
+                hasPathParams: true,
+                pathParams: ['id']
+            },
+            'GET:/api/v1/doctors/user/{userId}': {
+                method: 'GET',
+                hasPathParams: true,
+                pathParams: ['userId']
+            },
+            'GET:/api/v1/doctors': {
+                method: 'GET'
+            },
+            'PUT:/api/v1/doctors/{id}': {
+                method: 'PUT',
+                hasPathParams: true,
+                pathParams: ['id'],
+                hasBody: true,
+                sampleBody: {
+                    name: "Dr. Sarah Johnson",
+                    specialization: "Cardiology",
+                    email: "sarah.johnson@example.com",
+                    departments: ["Cardiology", "Internal Medicine", "Emergency"],
+                    userId: 2
+                }
+            },
+            'DELETE:/api/v1/doctors/{id}': {
+                method: 'DELETE',
+                hasPathParams: true,
+                pathParams: ['id']
+            },
+            'POST:/api/v1/appointments': {
+                method: 'POST',
+                hasBody: true,
+                sampleBody: {
+                    appointmentTime: "2024-12-01 10:00:00",
+                    reason: "Regular checkup",
+                    patientId: 1,
+                    doctorId: 1
+                }
+            },
+            'GET:/api/v1/appointments/{id}': {
+                method: 'GET',
+                hasPathParams: true,
+                pathParams: ['id']
+            },
+            'PUT:/api/v1/appointments/{id}/cancel': {
+                method: 'PUT',
+                hasPathParams: true,
+                pathParams: ['id']
+            },
+            'PUT:/api/v1/appointments/{id}/complete': {
+                method: 'PUT',
+                hasPathParams: true,
+                pathParams: ['id']
+            }
+        };
+
+        // Handle endpoint selection change
+        document.getElementById('endpointSelect').addEventListener('change', function() {
+            const selectedValue = this.value;
+            const config = endpointConfigs[selectedValue];
+            
+            // Reset all sections
+            document.getElementById('pathParamsSection').style.display = 'none';
+            document.getElementById('queryParamsSection').style.display = 'none';
+            document.getElementById('requestBodySection').style.display = 'none';
+            document.getElementById('pathParamsContainer').innerHTML = '';
+            document.getElementById('queryParamsContainer').innerHTML = '';
+            document.getElementById('requestBody').value = '';
+            
+            if (!config) return;
+            
+            // Show path parameters section if needed
+            if (config.hasPathParams) {
+                document.getElementById('pathParamsSection').style.display = 'block';
+                config.pathParams.forEach(param => {
+                    const div = document.createElement('div');
+                    div.style.marginBottom = '10px';
+                    div.innerHTML = `
+                        <label style="color: #8b949e; margin-right: 10px;">${param}:</label>
+                        <input type="text" id="param_${param}" placeholder="Enter ${param}" 
+                               style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 8px; border-radius: 5px; width: 200px;">
+                    `;
+                    document.getElementById('pathParamsContainer').appendChild(div);
+                });
+            }
+            
+            // Show query parameters section if needed
+            if (config.hasQueryParams) {
+                document.getElementById('queryParamsSection').style.display = 'block';
+                config.queryParams.forEach(param => {
+                    const div = document.createElement('div');
+                    div.style.marginBottom = '10px';
+                    div.innerHTML = `
+                        <label style="color: #8b949e; margin-right: 10px;">${param}:</label>
+                        <input type="text" id="query_${param}" placeholder="Enter ${param}" 
+                               style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 8px; border-radius: 5px; width: 200px;">
+                    `;
+                    document.getElementById('queryParamsContainer').appendChild(div);
+                });
+            }
+            
+            // Show request body section if needed
+            if (config.hasBody) {
+                document.getElementById('requestBodySection').style.display = 'block';
+                document.getElementById('requestBody').value = JSON.stringify(config.sampleBody, null, 2);
+            }
+        });
+
+        // Send request function
+        async function sendRequest() {
+            const selectedValue = document.getElementById('endpointSelect').value;
+            if (!selectedValue) {
+                alert('Please select an endpoint');
+                return;
+            }
+            
+            const config = endpointConfigs[selectedValue];
+            const baseUrl = document.getElementById('baseUrl').value;
+            const jwtToken = document.getElementById('jwtToken').value;
+            
+            let url = baseUrl + selectedValue.split(':')[1];
+            
+            // Replace path parameters
+            if (config.hasPathParams) {
+                config.pathParams.forEach(param => {
+                    const value = document.getElementById(`param_${param}`).value;
+                    if (!value) {
+                        alert(`Please enter ${param}`);
+                        return;
+                    }
+                    url = url.replace(`{${param}}`, value);
+                });
+            }
+            
+            // Add query parameters
+            if (config.hasQueryParams) {
+                const queryParams = new URLSearchParams();
+                config.queryParams.forEach(param => {
+                    const value = document.getElementById(`query_${param}`).value;
+                    if (value) {
+                        queryParams.append(param, value);
+                    }
+                });
+                if (queryParams.toString()) {
+                    url += '?' + queryParams.toString();
+                }
+            }
+            
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            if (jwtToken) {
+                headers['Authorization'] = `Bearer ${jwtToken}`;
+            }
+            
+            const options = {
+                method: config.method,
+                headers: headers
+            };
+            
+            if (config.hasBody) {
+                const bodyText = document.getElementById('requestBody').value;
+                try {
+                    options.body = bodyText;
+                } catch (e) {
+                    alert('Invalid JSON in request body');
+                    return;
+                }
+            }
+            
+            const startTime = Date.now();
+            
+            try {
+                const response = await fetch(url, options);
+                const endTime = Date.now();
+                const responseTime = endTime - startTime;
+                
+                const responseBody = await response.text();
+                
+                // Display response
+                document.getElementById('responseSection').style.display = 'block';
+                document.getElementById('statusCode').textContent = `${response.status} ${response.statusText}`;
+                document.getElementById('responseTime').textContent = `${responseTime}ms`;
+                
+                try {
+                    const jsonResponse = JSON.parse(responseBody);
+                    document.getElementById('responseBody').textContent = JSON.stringify(jsonResponse, null, 2);
+                } catch (e) {
+                    document.getElementById('responseBody').textContent = responseBody;
+                }
+                
+                // Color code status
+                const statusElement = document.getElementById('statusCode');
+                if (response.status >= 200 && response.status < 300) {
+                    statusElement.style.color = '#3fb950';
+                } else if (response.status >= 400 && response.status < 500) {
+                    statusElement.style.color = '#d29922';
+                } else {
+                    statusElement.style.color = '#f85149';
+                }
+                
+            } catch (error) {
+                document.getElementById('responseSection').style.display = 'block';
+                document.getElementById('statusCode').textContent = 'Error';
+                document.getElementById('statusCode').style.color = '#f85149';
+                document.getElementById('responseTime').textContent = '';
+                document.getElementById('responseBody').textContent = error.message;
+            }
+        }
+
+        // Clear response function
+        function clearResponse() {
+            document.getElementById('responseSection').style.display = 'none';
+            document.getElementById('responseBody').textContent = '';
+        }
+    </script>
+</body>
+</html>
